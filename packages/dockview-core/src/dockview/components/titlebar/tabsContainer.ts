@@ -18,6 +18,7 @@ import {
     createDropdownElementHandle,
     DropdownElement,
 } from './tabOverflowControl';
+import { GroupOrientation } from '../../dockviewGroupPanelModel';
 
 export interface TabDropIndexEvent {
     readonly event: DragEvent;
@@ -53,6 +54,7 @@ export interface ITabsContainer extends IDisposable {
     setRightActionsElement(element: HTMLElement | undefined): void;
     setLeftActionsElement(element: HTMLElement | undefined): void;
     setPrefixActionsElement(element: HTMLElement | undefined): void;
+    setOrientation(orientation: GroupOrientation): void;
     show(): void;
     hide(): void;
     updateDragAndDropState(): void;
@@ -274,6 +276,21 @@ export class TabsContainer
             this.preActionsContainer.appendChild(element);
             this.preActions = element;
         }
+    }
+
+    setOrientation(orientation: GroupOrientation): void {
+        toggleClass(
+            this._element,
+            'dv-tabs-horizontal',
+            orientation === 'horizontal'
+        );
+        toggleClass(
+            this._element,
+            'dv-tabs-vertical',
+            orientation === 'vertical'
+        );
+
+        this.tabs.setOrientation(orientation);
     }
 
     isActive(tab: Tab): boolean {

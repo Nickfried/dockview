@@ -1,6 +1,6 @@
 {
-  "name": "dockview-core",
-  "version": "4.9.0",
+  "name": "@home/dockview-core",
+  "version": "4.9.3-vertical-tabs",
   "description": "Zero dependency layout manager supporting tabs, grids and splitviews",
   "keywords": [
     "splitview",

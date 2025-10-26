@@ -1,6 +1,6 @@
 {
-  "name": "dockview",
-  "version": "4.9.0",
+  "name": "@home/dockview",
+  "version": "4.9.3-vertical-tabs",
   "description": "Zero dependency layout manager supporting tabs, grids and splitviews",
   "keywords": [
     "splitview",
@@ -53,7 +53,7 @@
     "test:cov": "cross-env ../../node_modules/.bin/jest --selectProjects dockview --coverage"
   },
   "dependencies": {
-    "dockview-core": "^4.9.0"
+    "@home/dockview-core": "^4.9.3-vertical-tabs"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"

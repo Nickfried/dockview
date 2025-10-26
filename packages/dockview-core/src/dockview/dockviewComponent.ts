@@ -1455,7 +1455,14 @@ export class DockviewComponent
             const createGroupFromSerializedState = (
                 data: GroupPanelViewState
             ) => {
-                const { id, locked, hideHeader, views, activeView } = data;
+                const {
+                    id,
+                    locked,
+                    hideHeader,
+                    views,
+                    activeView,
+                    orientation,
+                } = data;
 
                 if (typeof id !== 'string') {
                     throw new Error('group id must be of type string');
@@ -1465,6 +1472,7 @@ export class DockviewComponent
                     id,
                     locked: !!locked,
                     hideHeader: !!hideHeader,
+                    orientation,
                 });
                 this._onDidAddGroup.fire(group);
 
@@ -1549,7 +1557,9 @@ export class DockviewComponent
                     setTimeout(() => {
                         this.addPopoutGroup(group, {
                             position: position ?? undefined,
-                            overridePopoutGroup: gridReferenceGroup ? group : undefined,
+                            overridePopoutGroup: gridReferenceGroup
+                                ? group
+                                : undefined,
                             referenceGroup: gridReferenceGroup
                                 ? this.getPanel(gridReferenceGroup)
                                 : undefined,
@@ -1563,7 +1573,9 @@ export class DockviewComponent
             });
 
             // Store the promise for tests to wait on
-            this._popoutRestorationPromise = Promise.all(popoutPromises).then(() => void 0);
+            this._popoutRestorationPromise = Promise.all(popoutPromises).then(
+                () => void 0
+            );
 
             for (const floatingGroup of this._floatingGroups) {
                 floatingGroup.overlay.setBounds();
@@ -2192,11 +2204,13 @@ export class DockviewComponent
 
             // Check if destination group is empty - if so, force render the component
             const isDestinationGroupEmpty = destinationGroup.model.size === 0;
-            
+
             this.movingLock(() =>
                 destinationGroup.model.openPanel(removedPanel, {
                     index: destinationIndex,
-                    skipSetActive: (options.skipSetActive ?? false) && !isDestinationGroupEmpty,
+                    skipSetActive:
+                        (options.skipSetActive ?? false) &&
+                        !isDestinationGroupEmpty,
                     skipSetGroupActive: true,
                 })
             );

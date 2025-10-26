@@ -10,7 +10,11 @@ import {
     Event,
     IDockviewEvent,
 } from '../events';
-import { DockviewGroupDropLocation, WillShowOverlayLocationEvent, WillShowOverlayLocationEventOptions } from './events';
+import {
+    DockviewGroupDropLocation,
+    WillShowOverlayLocationEvent,
+    WillShowOverlayLocationEventOptions,
+} from './events';
 import { IViewSize } from '../gridview/gridview';
 import { CompositeDisposable, IDisposable } from '../lifecycle';
 import {
@@ -42,6 +46,8 @@ import { TitleEvent } from '../api/dockviewPanelApi';
 import { Contraints } from '../gridview/gridviewPanel';
 import { DropTargetAnchorContainer } from '../dnd/dropTargetAnchorContainer';
 
+export type GroupOrientation = 'horizontal' | 'vertical';
+
 interface GroupMoveEvent {
     groupId: string;
     itemId?: string;
@@ -56,6 +62,7 @@ interface CoreGroupOptions {
     constraints?: Partial<Contraints>;
     initialWidth?: number;
     initialHeight?: number;
+    orientation?: GroupOrientation;
 }
 
 export interface GroupOptions extends CoreGroupOptions {
@@ -141,7 +148,6 @@ export interface IHeader {
 
 export type DockviewGroupPanelLocked = boolean | 'no-drop-target';
 
-
 export interface IDockviewGroupPanelModel extends IPanel {
     readonly isActive: boolean;
     readonly size: number;
@@ -194,7 +200,6 @@ export type DockviewGroupLocation =
     | { type: 'grid' }
     | { type: 'floating' }
     | { type: 'popout'; getWindow: () => Window; popoutUrl?: string };
-
 
 export class DockviewGroupPanelModel
     extends CompositeDisposable
@@ -379,6 +384,11 @@ export class DockviewGroupPanelModel
         });
     }
 
+    private _orientation: GroupOrientation = 'horizontal';
+    get orientation(): GroupOrientation {
+        return this._orientation;
+    }
+
     constructor(
         private readonly container: HTMLElement,
         private readonly accessor: DockviewComponent,
@@ -389,6 +399,19 @@ export class DockviewGroupPanelModel
         super();
 
         toggleClass(this.container, 'dv-groupview', true);
+
+        this._orientation = options.orientation ?? 'horizontal';
+
+        toggleClass(
+            this.container,
+            'dv-tabs-horizontal',
+            this._orientation === 'horizontal'
+        );
+        toggleClass(
+            this.container,
+            'dv-tabs-vertical',
+            this._orientation === 'vertical'
+        );
 
         this._api = new DockviewApi(this.accessor);
 
@@ -513,6 +536,8 @@ export class DockviewGroupPanelModel
         this.setActive(this.isActive, true);
         this.updateContainer();
 
+        this.tabsContainer.setOrientation(this._orientation);
+
         if (this.accessor.options.createRightHeaderActionComponent) {
             this._rightHeaderActions =
                 this.accessor.options.createRightHeaderActionComponent(
@@ -583,6 +608,10 @@ export class DockviewGroupPanelModel
 
         if (this.header.hidden) {
             result.hideHeader = true;
+        }
+
+        if (this._orientation !== 'horizontal') {
+            result.orientation = this._orientation;
         }
 
         return result;

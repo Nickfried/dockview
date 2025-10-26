@@ -3,8 +3,18 @@
     background-color: var(--dv-tabs-and-actions-container-background-color);
     flex-shrink: 0;
     box-sizing: border-box;
-    height: var(--dv-tabs-and-actions-container-height);
     font-size: var(--dv-tabs-and-actions-container-font-size);
+
+
+    &.dv-tabs-vertical {
+        flex-direction: column;
+        width: var(--dv-tabs-and-actions-container-width);
+    }
+
+    &.dv-tabs-horizontal {
+        flex-direction: row;
+        height: var(--dv-tabs-and-actions-container-height);
+    }
 
     &.dv-single-tab.dv-full-width-single-tab {
         .dv-scrollable {
@@ -28,7 +38,7 @@
     .dv-void-container {
         display: flex;
         flex-grow: 1;
-        
+
         &.dv-draggable {
             cursor: grab;
         }

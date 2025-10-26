@@ -2,6 +2,7 @@ import { getPanelData } from '../../../dnd/dataTransfer';
 import {
     isChildEntirelyVisibleWithinParent,
     OverflowObserver,
+    toggleClass,
 } from '../../../dom';
 import { addDisposableListener, Emitter, Event } from '../../../events';
 import {
@@ -17,6 +18,7 @@ import { WillShowOverlayLocationEvent } from '../../events';
 import { DockviewPanel, IDockviewPanel } from '../../dockviewPanel';
 import { Tab } from '../tab/tab';
 import { TabDragEvent, TabDropIndexEvent } from './tabsContainer';
+import { GroupOrientation } from '../../dockviewGroupPanelModel';
 
 export class Tabs extends CompositeDisposable {
     private readonly _element: HTMLElement;
@@ -145,6 +147,19 @@ export class Tabs extends CompositeDisposable {
         return (
             this.selectedIndex > -1 &&
             this._tabs[this.selectedIndex].value === tab
+        );
+    }
+
+    setOrientation(orientation: GroupOrientation): void {
+        toggleClass(
+            this._tabsList,
+            'dv-tabs-horizontal',
+            orientation === 'horizontal'
+        );
+        toggleClass(
+            this._tabsList,
+            'dv-tabs-vertical',
+            orientation === 'vertical'
         );
     }
 

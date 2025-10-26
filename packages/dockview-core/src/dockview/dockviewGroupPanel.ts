@@ -6,6 +6,7 @@ import {
     IDockviewGroupPanelModel,
     IHeader,
     DockviewGroupPanelLocked,
+    GroupOrientation,
 } from './dockviewGroupPanelModel';
 import { GridviewPanel, IGridviewPanel } from '../gridview/gridviewPanel';
 import { IDockviewPanel } from '../dockview/dockviewPanel';
@@ -21,6 +22,7 @@ export interface IDockviewGroupPanel
     extends IGridviewPanel<DockviewGroupPanelApi> {
     model: IDockviewGroupPanelModel;
     locked: DockviewGroupPanelLocked;
+    orientation: GroupOrientation;
     readonly size: number;
     readonly panels: IDockviewPanel[];
     readonly activePanel: IDockviewPanel | undefined;
@@ -88,6 +90,10 @@ export class DockviewGroupPanel
 
     set locked(value: DockviewGroupPanelLocked) {
         this._model.locked = value;
+    }
+
+    get orientation(): GroupOrientation {
+        return this._model.orientation;
     }
 
     get header(): IHeader {

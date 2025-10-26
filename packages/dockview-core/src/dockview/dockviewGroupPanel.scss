@@ -1,12 +1,19 @@
 .dv-groupview {
     display: flex;
-    flex-direction: column;
     height: 100%;
     background-color: var(--dv-group-view-background-color);
     overflow: hidden;
 
     &:focus {
         outline: none;
+    }
+
+    &.dv-tabs-horizontal {
+        flex-direction: column;
+    }
+
+    &.dv-tabs-vertical {
+        flex-direction: row;
     }
 
     > .dv-content-container {

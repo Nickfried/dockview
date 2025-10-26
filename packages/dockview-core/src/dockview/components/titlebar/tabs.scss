@@ -24,6 +24,14 @@
         }
     }
 
+    &.dv-tabs-horizontal {
+        flex-direction: row;
+    }
+
+    &.dv-tabs-vertical {
+        flex-direction: column;
+    }
+
     &::-webkit-scrollbar {
         height: 3px;
     }

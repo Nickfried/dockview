@@ -62,9 +62,25 @@
         white-space: nowrap;
         text-overflow: ellipsis;
 
+        .dv-tabs-vertical & {
+            flex-direction: column;
+        }
+
+        .dv-tabs-horizontal & {
+            flex-direction: row;
+        }
+
         .dv-default-tab-content {
             flex-grow: 1;
-            margin-right: 4px;
+            
+            .dv-tabs-vertical & {
+                writing-mode: vertical-rl;
+                margin-bottom: 4px;
+            }
+
+            .dv-tabs-horizontal & {
+                margin-right: 4px;
+            }
         }
 
         .dv-default-tab-action {
